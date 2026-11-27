@@ -1,0 +1,286 @@
+/* Neutral editorial grid. Color is reserved for errors and the reader indicator. */
+:root {
+  --ink: #242424;
+  --ink-70: #686864;
+  --ink-45: #92928c;
+  --ink-25: #c9c9c3;
+  --paper: #f7f7f6;
+  --paper-deep: #ececea;
+  --card: #fafaf9;
+  --line: #e4e4e1;
+  --lime: #e7e7e3;
+  --lime-deep: #9b9b92;
+  --olive: #55554f;
+  --sidebar-w: 176px;
+  --aside-w: 320px;
+  --shell-pad: 44px;
+  --gutter: 32px;
+  --content-max: 1500px;
+  --radius-card: 12px;
+  --radius-btn: 7px;
+}
+body { font-size: 14px; }
+.page { background-image: none; }
+.sidebar { background: var(--paper); color: var(--ink); border-right: 1px solid var(--line); }
+.shell { padding-bottom: 40px; }
+.app-main { background-image: linear-gradient(90deg, transparent calc(50% - .5px), #e4e4e140 50%, transparent calc(50% + .5px)); }
+.navbar { margin-bottom: 28px; }
+.navbar-row { min-height: 86px; gap: 18px; }
+.nav-back { width: 24px; height: 32px; border: 0; border-radius: 0; background: transparent; font-size: 24px; }
+.app-frame .page .card { background: transparent; box-shadow: none; border: 1px solid var(--line); border-radius: 12px; }
+.card-pad { padding: 20px; }
+.section { margin-top: 30px; }
+.section-head { gap: 12px; margin-bottom: 16px; }
+.section-title { font-size: 17px; font-weight: 400; }
+.section-index { font-size: 10px; letter-spacing: 0; margin-right: 12px; }
+.section-aside, .section-aside.mono { font-size: 10px; letter-spacing: .4px; }
+.section-left { min-width: 0; }
+.app-frame .page .btn { height: 42px; border-radius: 7px; font-size: 13px; box-shadow: none; padding: 0 18px; font-weight: 400; }
+.app-frame .page .btn-sm { height: 32px; font-size: 12px; padding: 0 12px; }
+.btn-primary { background: #2f2f2c; color: #fff; }
+.btn-primary:hover { background: #444440; }
+.btn-dark { background: #e5e5e1; color: #262624; }
+.btn-dark:hover { background: #dcdcd7; }
+.btn-ghost { background: transparent; }
+.app-frame .page .input, .app-frame .page .hex-input { background: #f0f0ed; border: 1px solid #e5e5e0; border-radius: 7px; font-size: 13px; height: 40px; padding: 0 12px; }
+.app-frame .page textarea.input, .app-frame .page .hex-input.area { height: auto; min-height: 110px; padding: 10px 12px; }
+.input:focus, .hex-input:focus { border-color: #888880; }
+.field-label { font-size: 11px; color: var(--ink-70); }
+.hint { font-size: 12px; line-height: 1.7; }
+.mono { font-size: 11px; letter-spacing: .6px; }
+.link { font-size: 12px; margin-left: 14px; }
+.link.muted { font-size: 12px; }
+.app-frame .page .submenu { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 0; gap: 28px; margin-bottom: 28px; }
+.app-frame .page .submenu-item { flex: none; height: 42px; border-radius: 0; font-size: 13px; padding: 0 0 12px; gap: 7px; }
+.app-frame .page .submenu-item.active { background: transparent; box-shadow: none; border-bottom: 1px solid #333; font-weight: 400; }
+.sub-icon { width: 16px; height: 16px; }
+.app-frame .page .segment { background: transparent; border-bottom: 1px solid var(--line); border-radius: 0; padding: 0; margin: 0 0 28px; gap: 24px; }
+.app-frame .page .segment-item { flex: none; border-radius: 0; font-size: 12px; padding: 10px 0; }
+.app-frame .page .segment-item.on { box-shadow: none; border-bottom: 1px solid #333; background: transparent; font-weight: 400; }
+.segment-sep { display: none; }
+.ble-pill { height: 34px; padding: 0 10px; border-radius: 7px; background: transparent; box-shadow: none; gap: 6px; }
+.ble-label { font-size: 11px; }.ble-dot { width: 5px; height: 5px; }.ble-chevron { font-size: 16px; }
+.ble-dot.on { background: #68685f; box-shadow: none; animation: none; }
+.connection-icon { width: 14px; height: 14px; flex: none; }
+.workbench-aside { gap: 24px; }
+.workbench-aside.scroll { top: 24px; max-height: calc(100vh - 48px); }
+.app-frame .page .tag { height: 24px; padding: 0 8px; border-radius: 0; font-size: 11px; }
+.app-frame .page .result-box { font-size: 12px; line-height: 1.8; background: #ecece8; color: #333; border-radius: 0; }
+.app-frame .page .tool-entry { height: 34px; padding: 0; border: 0; border-bottom: 1px solid #aaa; border-radius: 0; background: transparent; font-size: 12px; }
+.app-frame .page .preset-chip, .app-frame .page .entry, .app-frame .page .chip, .app-frame .page .toggle-item { border-radius: 7px; box-shadow: none; }
+.app-frame .page .preview-frame, .app-frame .page .epd-frame, .app-frame .page .board-wrap { box-shadow: none; border-radius: 10px; }
+.app-frame .page .preview-canvas, .app-frame .page .epd-canvas { border-radius: 0; }
+.app-frame .page .profile-line { background: #eeeee9; color: #555; border-radius: 7px; font-size: 12px; }
+.app-frame .page .log-src { border-radius: 0; font-size: 10px; }.log-time { font-size: 11px; }.log-msg { font-size: 12px; }
+.app-frame .page .tools-panel, .app-frame .page .tools-grid { border-radius: 0; }
+.app-frame .page .rise, .app-frame .page .fade-in { animation: none; }
+.app-frame .page .queue-empty { padding: 36px 18px; }.empty-title { font-size: 17px; }.empty-desc { font-size: 12px; }
+.app-frame .page .progress-track { border-radius: 0; }
+@media (max-width: 1360px) {
+  :root { --sidebar-w: 156px; --aside-w: 300px; --shell-pad: 28px; --gutter: 24px; }
+}
+.app-frame .page .empty-icon { display: none; }
+.app-frame .page .card-ring { animation: none; border: 0; }
+.app-frame .page .card-chip { border-radius: 4px; background: #3e3e3a; }
+.app-frame .page .card-tag { font-size: 11px; letter-spacing: 0; }
+.app-frame .page .count { font-size: 13px; font-weight: 400; }
+
+/* Desktop viewport: keep navigation and primary actions in place. Long data and
+   parameter panels scroll locally rather than extending the whole document.
+   下限压到 720px：再窄就整体横向滚动，但内容不会被切掉一半。 */
+body { min-width: 720px; }
+.app-frame { height: 100dvh; min-height: 0; }
+.app-main, .app-main > .page { height: 100%; min-height: 0; }
+.app-main > .page > .shell {
+  height: 100%; min-height: 0; display: flex; flex-direction: column;
+  padding-bottom: 20px;
+}
+.navbar { flex: none; margin-bottom: 20px; }
+.navbar-row { min-height: 72px; }
+.app-frame .page .submenu, .app-frame .page .segment { flex: none; margin-bottom: 20px; }
+.workbench { flex: 1; min-height: 0; overflow: hidden; min-width: 0; }
+/* 主栏必须允许收缩：网格项默认 min-width:auto，会被内容顶宽，
+   窄窗口下整页就会横向溢出，右栏被挤出屏幕。 */
+.workbench-main { height: 100%; min-height: 0; min-width: 0; overflow: auto; scrollbar-gutter: stable; }
+.workbench-aside.scroll { position: static; height: 100%; min-height: 0; max-height: 100%; overflow: auto; }
+.workbench-aside { gap: 16px; }
+.workbench-main > .section:first-child { margin-top: 0; }
+.workbench-main > .section:last-child { margin-bottom: 0; }
+.app-frame .page .card { border-radius: 12px; }
+.app-frame .page .preset-chip, .app-frame .page .entry,
+.app-frame .page .chip, .app-frame .page .toggle-item { border-radius: 7px; }
+.app-frame .page .profile-line { padding: 9px 12px; overflow-wrap: anywhere; }
+.app-frame .page .preview-canvas, .app-frame .page .epd-canvas { border-radius: 4px; }
+.app-frame .page .result-box { border-radius: 7px; }
+.app-frame .page .mode-visual { border-radius: 10px; }
+
+/* Image processing: preserve the bitmap ratio and fit both portrait and
+   landscape previews to the available height. No canvas pixel sizes change. */
+.app-frame .eink-page .process-split { flex: 1; min-height: 0; overflow: hidden; }
+.app-frame .eink-page .process-left { height: 100%; min-height: 0; overflow: auto; }
+.app-frame .eink-page .process-right { position: static; min-height: 0; max-height: 100%; height: 100%; overflow: auto; }
+.app-frame .eink-page .process-left .strip-scroll { margin-bottom: 12px; }
+.app-frame .eink-page .process-left .strip-item { width: 70px; padding: 4px; border-radius: 7px; }
+.app-frame .eink-page .process-left .strip-img { height: 52px; width: 100%; object-fit: contain; }
+.app-frame .eink-page .strip-name, .app-frame .eink-page .strip-tag { font-size: 10px; }
+.app-frame .eink-page .process-left .preview-frame { width: fit-content; max-width: 100%; padding: 8px; }
+.app-frame .eink-page .preview-canvas { width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 310px); object-fit: contain; }
+.app-frame .eink-page .preview-info { font-size: 11px; margin-top: 6px; }
+.app-frame .eink-page .control-title { font-size: 13px; margin-bottom: 8px; }
+.app-frame .eink-page .control-group + .control-group { margin-top: 18px; }
+.app-frame .eink-page .preset-chip { padding: 9px 10px; }
+.app-frame .eink-page .preset-name { font-size: 12px; }
+.app-frame .eink-page .preset-desc { font-size: 10px; }
+.app-frame .eink-page .direction-hint { font-size: 11px; }
+
+/* Flash guide: the preview takes the remaining space after steps and actions. */
+.app-frame .eink-page .guide-section { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.app-frame .eink-page .guide-section > :not(.guide-layout) { flex: none; }
+.app-frame .eink-page .guide-layout { flex: 1; min-height: 100px; margin-top: 12px; align-items: stretch; }
+.app-frame .eink-page .guide-screen { width: auto; height: 100%; max-width: 100%; min-height: 0; }
+.app-frame .eink-page .epd-frame { height: 100%; max-width: 100%; padding: 8px; }
+.app-frame .eink-page .epd-canvas { width: auto; height: 100%; max-width: 100%; object-fit: contain; }
+.app-frame .eink-page .gsteps { margin-top: 12px; }
+.app-frame .eink-page .gstep-dot { width: 26px; height: 26px; font-size: 12px; }
+.app-frame .eink-page .gstep-line { top: 13px; }
+.app-frame .eink-page .gstep-label, .app-frame .eink-page .gstep-note { font-size: 11px; }
+.app-frame .eink-page .gstrip { margin-top: 10px; margin-bottom: 0; }
+.app-frame .eink-page .gstrip .strip-item { width: 42px; padding: 3px; border-radius: 6px; }
+.app-frame .eink-page .gstrip .strip-img { height: 40px; width: 100%; object-fit: contain; }
+.app-frame .eink-page .guide-actions { margin-top: 10px; }
+.app-frame .eink-page .guide-foot, .app-frame .eink-page .status-hint { font-size: 10px; margin-top: 7px; }
+
+/* Other work surfaces follow the viewport without changing exported pixels. */
+.app-frame .page .board-canvas { display: block; max-height: calc(100dvh - 210px); width: auto; max-width: 100%; margin: auto; }
+.app-frame .page .ticket-canvas { max-height: calc(100dvh - 270px); width: auto; max-width: 100%; object-fit: contain; }
+.app-frame .page .radar-wrap { padding-top: 8px; }
+.app-frame .page .radar { width: clamp(140px, 26vh, 220px); height: clamp(140px, 26vh, 220px); margin-bottom: 12px; }
+.app-frame .page .status-text { font-size: 20px; }
+.app-frame .page .reader-card { margin-top: 20px; }
+
+/* Home uses flexible tracks instead of a fixed hero height. */
+.app-frame .home-page .home-top { height: 64px; flex: none; }
+.app-frame .home-page .home-product { min-height: 240px; flex: 1; gap: 24px; }
+.app-frame .home-page h1 { font-size: clamp(38px, 7vh, 64px); margin: 16px 0; }
+.app-frame .home-page .workspace-section { flex: none; padding: 22px 0; }
+.app-frame .home-page .workspace-intro { margin-bottom: 16px; font-size: 15px; }
+.app-frame .home-page .mode-visual { height: clamp(90px, 15vh, 145px); }
+.app-frame .home-page .paper-device { transform: rotate(-6deg) scale(.85); }
+.app-frame .home-page .home-footer { flex: none; padding-top: 12px; }
+.app-frame .home-page .scene-devices { height: clamp(165px, 26vh, 230px); }
+
+/* 窄窗口（窗口小或浏览器放大）时右栏落到主栏下面，
+   而不是把内容切掉一半。 */
+@media (max-width: 1080px) {
+  .app-frame .page.nfc-page .workbench { grid-template-columns: minmax(0, 1fr); }
+  .app-frame .page.nfc-page .workbench-aside { margin-top: 22px; }
+  .app-frame .page.nfc-page .workbench-main { overflow-x: auto; }
+}
+
+/* 再窄就一列到底：卡片图与识别信息上下排，别挤成一条缝。 */
+@media (max-width: 1040px) {
+  .app-frame .page.nfc-page .card-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-frame .page.nfc-page .split { grid-template-columns: minmax(0, 1fr); }
+  .app-frame .page.nfc-page .storage-actions { grid-template-columns: minmax(0, 1fr); }
+  .app-frame .page.nfc-page .storage-actions > .card { grid-column: 1; grid-row: auto; }
+  .app-frame .page.nfc-page .ndef-editor { grid-column: 1; grid-row: auto; }
+}
+@media (max-width: 1200px) {
+  :root { --sidebar-w: 132px; --aside-w: 260px; --shell-pad: 22px; --gutter: 18px; }
+  .app-frame .page .card-pad { padding: 14px; }
+  .app-frame .home-page .home-product { grid-template-columns: 1fr 1.7fr; }
+  .app-frame .home-page .product-notes { display: none; }
+  .app-frame .eink-page .process-split { grid-template-columns: minmax(0, 1fr) minmax(310px, 1fr); }
+}
+@media (max-height: 760px) {
+  .navbar-row { min-height: 62px; }
+  .navbar { margin-bottom: 14px; }
+  .app-frame .page .submenu, .app-frame .page .segment { margin-bottom: 14px; }
+  .section-head { margin-bottom: 10px; }
+  .app-frame .home-page .workspace-section { padding: 16px 0; }
+  .app-frame .home-page .home-top { height: 52px; }
+  .app-frame .home-page .workspace-intro { font-size: 13px; }
+  .app-frame .page .reader-details { margin-top: 12px; padding-top: 10px; }
+}
+/* The processing preview uses the exact remaining grid track, including the
+   thumbnail strip and caption, rather than a guessed viewport subtraction. */
+.app-frame .eink-page .process-left {
+  display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 8px; overflow: hidden;
+}
+.app-frame .eink-page .process-left .section-head { margin-bottom: 0; }
+.app-frame .eink-page .process-left .strip-scroll { margin-top: 0; margin-bottom: 0; max-height: 106px; }
+.app-frame .eink-page .process-left .preview-frame {
+  min-height: 0; height: 100%; max-height: 100%; width: fit-content;
+  justify-self: center; margin: 0;
+}
+.app-frame .eink-page .preview-canvas { height: 100%; width: auto; max-height: 100%; }
+.app-frame .eink-page .preview-info { margin: 0 auto; }
+.app-frame .eink-page .process-left > .card { grid-row: 2 / -1; align-self: start; }
+
+/* Muted sage, slate blue and warm clay keep functional areas distinguishable. */
+:root { --radius-card: 16px; --radius-btn: 9px; }
+.app-frame .page .card { border-radius: 16px; background: #fafbf980; }
+.app-frame .page .btn { border-radius: 9px; }
+.app-frame .page .input, .app-frame .page .hex-input { border-radius: 9px; background: #f0f2ee; }
+.app-frame .page .btn-primary { background: #465e50; color: #fff; }
+.app-frame .page .btn-primary:hover { background: #354b3e; }
+.app-frame .page .btn-dark { background: #e5eaf0; color: #465b72; }
+.app-frame .page .preset-chip.on { background: #465e50; color: #fff; }
+.app-frame .page .preset-chip, .app-frame .page .entry, .app-frame .page .chip { border-radius: 10px; }
+.app-frame .page .profile-line { background: #e8eee8; color: #566b59; border-radius: 10px; }
+.app-frame .page .preview-frame, .app-frame .page .epd-frame { border-radius: 14px; }
+.app-frame .page .ble-pill { border-radius: 10px; }
+.app-frame .home-page .epaper-visual { background: #e9eeea; border-radius: 20px 20px 9px 20px; }
+.app-frame .home-page .nfc-visual { background: #e9edf3; border-radius: 20px 20px 20px 9px; }
+.app-frame .home-page .mode-entry:hover .epaper-visual { background: #dfe8e1; }
+.app-frame .home-page .mode-entry:hover .nfc-visual { background: #dfe6ef; }
+.app-frame .home-page .paper-device { border-color: #63786a; border-radius: 7px; }
+.app-frame .home-page .nfc-card { background: #d8e0eb; border-color: #bdcada; color: #5d7590; border-radius: 9px; }
+.app-frame .home-page .product-title .small-label { color: #8a705d; }
+.app-frame .home-page .product-notes dd { color: #596e60; }
+.app-frame .home-page .product-notes div:nth-child(2) dd { color: #5f7490; }
+.app-frame .home-page .product-notes div:nth-child(3) dd { color: #97775f; }
+
+/* Color follows function: sage for image work, blue for NFC, warm clay for
+   status and secondary actions. Keep the neutral page and readable contrast. */
+:root { --blue: #587b9f; --olive: #50735e; --lime-deep: #8ea997; }
+.sidebar { background: #f3f5f1; }
+.app-frame .page .navbar-row { border-color: #dce3dc; }
+.app-frame .page .submenu-item.active, .app-frame .page .segment-item.on { color: #416950; border-bottom-color: #668b72; }
+.app-frame .page .submenu-item:hover, .app-frame .page .segment-item:hover { color: #416950; }
+.app-frame .eink-page .control-card { background: #f1f5ef; border-color: #dbe5d8; }
+.app-frame .eink-page .aside-card { background: #edf2f7; border-color: #dbe3eb; }
+.app-frame .eink-page .preset-chip { background: #ffffffa8; color: #425347; border: 1px solid #e0e7dc; }
+.app-frame .eink-page .preset-chip:hover { background: #e3ecdf; }
+.app-frame .eink-page .preset-chip.on { background: #486b54; border-color: #486b54; color: #fff; }
+.app-frame .eink-page .preset-chip.on .preset-desc { color: #e2ecdf; }
+.app-frame .page .input:focus, .app-frame .page .hex-input:focus { border-color: #86a58f; background: #f5f9f3; }
+.app-frame .page .toggle-item.on { background: #dfe9df; border-color: #a3baa5; color: #3d6249; }
+.app-frame .page input[type='range'] { accent-color: #64856d; }
+.app-frame .page .tool-entry { color: #8b6851; border-bottom-color: #bd9f86; }
+.app-frame .page .tag { background: #e6edf4; color: #536f8b; border-radius: 7px; }
+.app-frame .page .result-box { background: #eaf0f6; color: #425c75; }
+.app-frame .page .ble-pill { background: #eff3ee; border-color: #d7e2d7; }
+.app-frame .page .gstep.active .gstep-dot { background: #dae7db; color: #47654f; }
+.app-frame .page .gstep.done .gstep-dot { background: #597962; color: #fff; }
+.app-frame .page .progress-fill { background: #829e88; }
+.app-frame .page .queue-empty { background: #edf2f033; border-radius: 14px; }
+.app-frame .page .card-hero { background: #edf1f6; border-color: #dbe3ed; }
+.app-frame .page .card-chip { background: #536c84; }
+.app-frame .page .chip-line { background: #c4d5e4; }
+.app-frame .page .log-src.app { background: #e0eadf; color: #52704f; }
+.app-frame .page .log-src.ble { background: #e2eaf3; color: #547593; }
+
+.app-frame .page.device-connected .radar-wrap { display: none; }
+.app-frame .page.device-connected .reader-card { margin-top: 0; }
+.app-frame .page.device-connected .reader-details { margin-top: 12px; padding-top: 12px; }
+.app-frame .page.device-connected .reader-sub { font-size: 11px; }
+
+/* Keep grouped actions apart and give long RF diagnostics the full log width. */
+.head-actions { gap: 12px; flex-wrap: wrap; justify-content: flex-end; }
+.head-actions .link { margin-left: 0; }
+.log-line { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 8px; padding: 9px 0; }
+.log-msg { grid-column: 1 / -1; min-width: 0; line-height: 1.65; }
+.log-src { justify-self: start; }
+.log-time { font-size: 10px; }

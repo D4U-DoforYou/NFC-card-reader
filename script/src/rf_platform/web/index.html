@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RF 设备控制</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f2f5fa;
+    }
+    body { margin: 0; padding: 24px; }
+    main { max-width: 760px; margin: 0 auto; }
+    h1 { margin-bottom: 8px; font-size: 1.8rem; }
+    .intro { margin-top: 0; color: #526079; }
+    section {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #d9e0eb;
+      border-radius: 12px;
+      background: #fff;
+    }
+    h2 { margin-top: 0; font-size: 1.15rem; }
+    .row { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+    label { display: grid; gap: 6px; min-width: 150px; }
+    input, select, button {
+      min-height: 40px;
+      padding: 8px 12px;
+      border: 1px solid #aeb9ca;
+      border-radius: 8px;
+      background: #fff;
+      font: inherit;
+    }
+    button { cursor: pointer; border-color: #2457c5; color: #fff; background: #2457c5; }
+    button.secondary { border-color: #aeb9ca; color: #172033; background: #fff; }
+    button:disabled { cursor: not-allowed; opacity: .55; }
+    #status, #message { min-height: 1.5em; }
+    #status[data-kind="error"], #message[data-kind="error"] { color: #a11b1b; }
+    #device-info { color: #526079; line-height: 1.6; }
+    .help { color: #526079; font-size: .92rem; }
+    img { display: block; max-width: 100%; max-height: 640px; margin-top: 12px; border: 1px solid #d9e0eb; }
+    .confirmation { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .confirmation input { min-height: auto; }
+    @media (max-width: 540px) {
+      body { padding: 12px; }
+      section { padding: 16px; }
+      .row > * { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>RF 设备控制</h1>
+    <p class="intro">网页通过电脑蓝牙连接 ESP32-C3 / CLRC663。</p>
+
+    <section aria-labelledby="connection-heading">
+      <h2 id="connection-heading">连接设备</h2>
+      <div class="row">
+        <label id="device-field" for="device">BLE 名称或地址
+          <input id="device" autocomplete="off" placeholder="留空自动发现">
+        </label>
+        <button id="connect">连接</button>
+        <button id="disconnect" class="secondary" disabled>断开</button>
+      </div>
+      <p id="status" role="status" aria-live="polite">未连接</p>
+      <p id="device-info" class="help"></p>
+    </section>
+
+    <section aria-labelledby="amplitude-heading">
+      <h2 id="amplitude-heading">发射幅度</h2>
+      <div class="row">
+        <label for="amplitude">档位
+          <select id="amplitude">
+            <option value="0">0 · TVDD − 100 mV</option>
+            <option value="1" selected>1 · TVDD − 250 mV（默认）</option>
+            <option value="2">2 · TVDD − 500 mV</option>
+            <option value="3">3 · TVDD − 1000 mV</option>
+          </select>
+        </label>
+        <button id="read-amplitude" class="secondary" disabled>读取</button>
+        <button id="set-amplitude" disabled>应用档位</button>
+      </div>
+      <p class="help">档位不是毫瓦值；实际场强还受供电和天线影响。</p>
+    </section>
+
+    <section aria-labelledby="scan-heading">
+      <h2 id="scan-heading">只读扫描</h2>
+      <div class="row">
+        <button id="scan" class="secondary" disabled>扫描 ISO14443-A</button>
+      </div>
+      <p id="message" role="status" aria-live="polite"></p>
+      <p class="help">Type A 扫描只读，不会写入标签。</p>
+    </section>
+
+    <section aria-labelledby="display-heading">
+      <h2 id="display-heading">电子纸刷写</h2>
+      <div class="row">
+        <label for="image">图片
+          <input id="image" type="file" accept="image/*">
+        </label>
+        <label for="fit">画面适配
+          <select id="fit"><option value="contain">完整显示</option><option value="cover">铺满裁切</option></select>
+        </label>
+        <label for="rotation">旋转
+          <select id="rotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select>
+        </label>
+        <label for="algorithm">颜色算法
+          <select id="algorithm"><option value="atkinson">Atkinson</option><option value="floyd">Floyd–Steinberg</option><option value="color">直接映射</option><option value="grayscale">灰度</option></select>
+        </label>
+        <label for="pin">屏幕 PIN（5 字节十六进制）
+          <input id="pin" autocomplete="off" placeholder="留空使用默认 PIN">
+        </label>
+      </div>
+      <div class="row">
+        <button id="scan-display" class="secondary" disabled>自动识别屏幕</button>
+        <button id="preview" class="secondary" disabled>生成预览</button>
+      </div>
+      <img id="preview-image" alt="传屏前的四色图像预览" hidden>
+      <p id="display-message" role="status" aria-live="polite"></p>
+      <label class="confirmation"><input id="confirm-uid" type="checkbox" disabled>我已核对上方扫描到的 UID，确认写入这块屏幕</label>
+      <div class="row">
+        <label class="confirmation"><input id="upload-only" type="checkbox">仅上传，不刷新屏幕</label>
+        <button id="refresh-display" disabled>上传并刷新屏幕</button>
+      </div>
+      <p id="display-progress" role="status" aria-live="polite" class="help"></p>
+      <p id="profile-help" class="help">先扫描屏幕，主机会自动识别型号和色彩格式。确认 UID 后再启动写入。</p>
+    </section>
+  </main>
+
+  <script>
+    const byId = (id) => document.getElementById(id);
+    const controls = ["read-amplitude", "set-amplitude", "scan", "scan-display"];
+    let scannedUid = "";
+    let scannedProfile = "";
+    let previewUrl = "";
+    let previewSignature = "";
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        headers: { "Content-Type": "application/json" },
+        ...options,
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.detail || "请求失败");
+      return body;
+    }
+
+    function showError(element, error) {
+      element.textContent = error.message;
+      element.dataset.kind = "error";
+    }
+
+    function setConnected(connected) {
+      byId("connect").disabled = connected;
+      byId("disconnect").disabled = !connected;
+      for (const id of controls) byId(id).disabled = !connected;
+      byId("preview").disabled = !connected || !scannedUid || !scannedProfile;
+      byId("refresh-display").disabled = !connected || !scannedUid ||
+        !scannedProfile || !byId("confirm-uid").checked;
+    }
+
+    function fileAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",", 2)[1]);
+        reader.onerror = () => reject(new Error("读取图片失败"));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function imageOptions() {
+      return {
+        fit: byId("fit").value,
+        rotation: Number(byId("rotation").value),
+        algorithm: byId("algorithm").value,
+      };
+    }
+
+    function currentPreviewSignature() {
+      const file = byId("image").files[0];
+      if (!file) return "";
+      return [scannedProfile, file.name, file.size, file.lastModified,
+        ...Object.values(imageOptions())].join(":");
+    }
+
+    function invalidatePreview() {
+      previewSignature = "";
+      byId("preview-image").hidden = true;
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = "";
+      }
+    }
+
+    function showDevice(status) {
+      if (!status.connected) {
+        scannedUid = "";
+        scannedProfile = "";
+        byId("confirm-uid").checked = false;
+        byId("confirm-uid").disabled = true;
+      }
+      byId("status").textContent = status.connected
+        ? `已连接（${status.transport}），幅度 ${status.tx_amplitude}`
+        : "未连接";
+      byId("device-info").textContent = status.connected
+        ? `${status.firmware} · ${status.radio} · ID ${status.device_id}`
+        : "";
+      if (status.connected) byId("amplitude").value = status.tx_amplitude;
+      setConnected(status.connected);
+    }
+
+    byId("connect").addEventListener("click", async () => {
+      const status = byId("status");
+      status.textContent = "正在连接…";
+      status.dataset.kind = "";
+      try {
+        showDevice(await api("/api/connect", {
+          method: "POST",
+          body: JSON.stringify({ device: byId("device").value || null }),
+        }));
+      } catch (error) {
+        showError(status, error);
+        setConnected(false);
+      }
+    });
+
+    byId("disconnect").addEventListener("click", async () => {
+      try {
+        showDevice(await api("/api/disconnect", { method: "POST" }));
+      } catch (error) {
+        showError(byId("status"), error);
+      }
+    });
+
+    byId("read-amplitude").addEventListener("click", async () => {
+      try {
+        const result = await api("/api/amplitude");
+        byId("amplitude").value = result.level;
+        byId("status").textContent = `幅度档位：${result.level}`;
+      } catch (error) {
+        showError(byId("status"), error);
+      }
+    });
+
+    byId("set-amplitude").addEventListener("click", async () => {
+      try {
+        const result = await api("/api/amplitude", {
+          method: "POST",
+          body: JSON.stringify({ level: Number(byId("amplitude").value) }),
+        });
+        byId("status").textContent = `幅度已设为 ${result.level}`;
+      } catch (error) {
+        showError(byId("status"), error);
+      }
+    });
+
+    byId("scan").addEventListener("click", async () => {
+      const message = byId("message");
+      message.textContent = "扫描中…";
+      message.dataset.kind = "";
+      try {
+        const result = await api("/api/scan/type-a", { method: "POST" });
+        message.textContent = result.found
+          ? `发现 UID ${result.uid} · SAK 0x${result.sak.toString(16).padStart(2, "0").toUpperCase()}`
+          : "未发现 ISO14443-A 标签";
+      } catch (error) {
+        showError(message, error);
+      }
+    });
+
+    byId("preview").addEventListener("click", async () => {
+      const message = byId("display-message");
+      const file = byId("image").files[0];
+      if (!scannedProfile) { message.textContent = "先自动识别屏幕型号"; return; }
+      if (!file) { message.textContent = "先选择一张图片"; return; }
+      message.textContent = "正在转换四色预览…";
+      message.dataset.kind = "";
+      try {
+        const response = await fetch("/api/display/preview", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            image: await fileAsBase64(file),
+            profile: scannedProfile,
+            ...imageOptions(),
+          }),
+        });
+        if (!response.ok) {
+          const body = await response.json();
+          throw new Error(body.detail || "图像转换失败");
+        }
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        previewUrl = URL.createObjectURL(await response.blob());
+        byId("preview-image").src = previewUrl;
+        byId("preview-image").hidden = false;
+        previewSignature = currentPreviewSignature();
+        message.textContent = "预览已生成；确认图片和 UID 后即可刷新。";
+      } catch (error) { showError(message, error); }
+    });
+
+    byId("scan-display").addEventListener("click", async () => {
+      const message = byId("display-message");
+      message.textContent = "请把屏幕 NFC 区域放在天线中心，正在自动识别…";
+      message.dataset.kind = "";
+      scannedUid = "";
+      scannedProfile = "";
+      byId("confirm-uid").checked = false;
+      byId("confirm-uid").disabled = true;
+      byId("display-heading").textContent = "正在识别屏幕";
+      invalidatePreview();
+      setConnected(true);
+      try {
+        const result = await api("/api/display/scan", {
+          method: "POST",
+          body: JSON.stringify({ profile: "auto" }),
+        });
+        scannedUid = result.uid;
+        scannedProfile = result.profile;
+        const name = result.product || result.profile;
+        byId("display-heading").textContent = `${name} 电子纸`;
+        byId("algorithm").value = scannedProfile === "reink-c1" ? "color" : "atkinson";
+        byId("profile-help").textContent = scannedProfile === "reink-c1"
+          ? "Reink Case C1：240 × 416、黑白红黄四色。C1 使用 D3 压缩；图片压缩块超出当前 BLE 单帧上限时，会在写屏前提示。"
+          : `已识别 ${name}：${result.width} × ${result.height}、${result.colors} 色。主机已选择对应图像格式。`;
+        message.textContent = `识别成功：${name} ${result.width}×${result.height} · ${result.colors} 色 · UID ${result.uid}`;
+        byId("confirm-uid").disabled = false;
+      } catch (error) { showError(message, error); }
+      setConnected(true);
+    });
+
+    byId("confirm-uid").addEventListener("change", () => setConnected(true));
+
+    byId("refresh-display").addEventListener("click", async () => {
+      const message = byId("display-message");
+      const progress = byId("display-progress");
+      const file = byId("image").files[0];
+      if (!file || !scannedUid || !byId("confirm-uid").checked) return;
+      if (previewSignature !== currentPreviewSignature()) {
+        showError(message, new Error("图片或转换选项已变化，请先重新生成预览"));
+        return;
+      }
+      const form = new FormData();
+      form.append("image", file);
+      form.append("confirmed_uid", scannedUid);
+      form.append("profile", scannedProfile);
+      form.append("pin", byId("pin").value.trim());
+      form.append("upload_only", String(byId("upload-only").checked));
+      Object.entries(imageOptions()).forEach(([key, value]) => form.append(key, String(value)));
+      byId("refresh-display").disabled = true;
+      message.textContent = "任务已启动；请保持屏幕贴在读卡器上。";
+      progress.textContent = "准备上传…";
+      let started = false;
+      try {
+        await api("/api/display/refresh", { method: "POST", body: form, headers: {} });
+        started = true;
+        let state;
+        do {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          state = await api("/api/display/status");
+          progress.textContent = state.total
+            ? `${state.stage}：${state.current}/${state.total}`
+            : state.stage;
+        } while (state.running);
+        if (state.error) throw new Error(state.error);
+        message.textContent = state.stage;
+      } catch (error) { showError(message, error); }
+      if (started) {
+        scannedUid = "";
+        scannedProfile = "";
+        byId("confirm-uid").checked = false;
+        byId("confirm-uid").disabled = true;
+      }
+      setConnected(true);
+    });
+
+    ["image", "fit", "rotation", "algorithm"].forEach((id) => {
+      byId(id).addEventListener("change", invalidatePreview);
+    });
+
+    api("/api/status").then(showDevice).catch((error) => showError(byId("status"), error));
+  </script>
+</body>
+</html>

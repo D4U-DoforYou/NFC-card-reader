@@ -1,0 +1,61 @@
+# macOS Finder and filesystem metadata
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+.TemporaryItems/
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Local editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python caches, virtual environments, and build output
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.venv/
+venv/
+env/
+htmlcov/
+.coverage
+.coverage.*
+pip-wheel-metadata/
+*.egg-info/
+
+# JavaScript tooling and generated bundles
+node_modules/
+dist/
+.vite/
+.turbo/
+
+# CMake, ESP-IDF, and embedded build output
+build/
+output/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+sdkconfig.old
+*.o
+*.a
+*.elf
+*.map
+.pio/
+
+# Runtime output and temporary files
+logs/
+*.log
+*.tmp
+*.bak

@@ -1,0 +1,632 @@
+/**
+ * 业务页共用样式。
+ *
+ * 同样是小程序版样式的 px 换算版（1rpx = 0.8px）。
+ */
+
+/* ---------------- 键值表 ---------------- */
+
+.kv {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.kv:last-child {
+  border-bottom: none;
+}
+
+.k {
+  font-size: 19px;
+  color: var(--ink-45);
+  flex: none;
+}
+
+.v {
+  font-size: 18px;
+  font-family: var(--mono);
+  text-align: right;
+  word-break: break-all;
+}
+
+.v.wrap {
+  font-family: var(--font);
+  font-size: 18px;
+}
+
+/* ---------------- 选项芯片 ---------------- */
+
+.option-chip {
+  padding: 10px 18px;
+  border-radius: 21px;
+  background: var(--paper);
+  border: none;
+  font-family: inherit;
+  font-size: 18px;
+  color: var(--ink-70);
+  cursor: pointer;
+}
+
+.option-chip.on {
+  background: var(--lime);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chip-row {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+/* ---------------- 文件列表 ---------------- */
+
+.file-row {
+  background: var(--paper);
+  border-radius: 11px;
+  padding: 13px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.file-row.on {
+  background: var(--lime);
+}
+
+.file-fid {
+  font-family: var(--mono);
+  font-size: 18px;
+}
+
+.file-name {
+  flex: 1;
+  font-size: 18px;
+  color: var(--ink-70);
+}
+
+.file-size {
+  font-family: var(--mono);
+  font-size: 17px;
+  color: var(--ink-45);
+}
+
+/* ---------------- 探测结果 ---------------- */
+
+.probe-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 18px;
+  flex-wrap: wrap;
+}
+
+.probe-state {
+  font-size: 15px;
+  padding: 2px 9px;
+  border-radius: 10px;
+}
+
+.probe-state.ok {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+.probe-state.miss {
+  background: var(--paper-deep);
+  color: var(--ink-45);
+}
+
+.probe-frame {
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--ink-45);
+  width: 100%;
+  word-break: break-all;
+}
+
+/* ---------------- 卡片可视化 ---------------- */
+
+.card-visual {
+  height: 176px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.card-ring {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border: 1px dashed rgba(20, 22, 26, 0.12);
+  border-radius: 50%;
+  animation: d4u-spin 24s linear infinite;
+}
+
+.card-chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #23262b, #14161a);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 16px;
+}
+
+.chip-line {
+  height: 3px;
+  background: rgba(150, 150, 140, 0.65);
+}
+
+.chip-line.l2 {
+  width: 70%;
+}
+
+.chip-line.l3 {
+  width: 45%;
+}
+
+.card-tag {
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: var(--ink-45);
+}
+
+/* ---------------- 画板 ---------------- */
+
+.board-wrap {
+  background: #fff;
+  border-radius: 22px;
+  padding: 13px;
+}
+
+.board-canvas {
+  width: 100%;
+  background: #fff;
+  border-radius: 14px;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.board-badge,
+.board-orient {
+  position: absolute;
+  font-size: 15px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  color: #fff;
+  pointer-events: none;
+}
+
+.board-badge {
+  left: 22px;
+  top: 22px;
+  background: rgba(20, 22, 26, 0.62);
+}
+
+.board-orient {
+  right: 22px;
+  bottom: 22px;
+  background: rgba(20, 22, 26, 0.72);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.board-stage {
+  position: relative;
+}
+
+.swatch {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--line);
+  cursor: pointer;
+  padding: 0;
+}
+
+.swatch.on {
+  box-shadow: 0 0 0 3px var(--lime-deep);
+}
+
+.toolbar-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 16px;
+}
+
+.tool-row {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.tool {
+  flex: 1;
+  min-width: 72px;
+  height: 58px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-family: inherit;
+  font-size: 19px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.tool.on {
+  background: var(--lime);
+  border-color: var(--lime);
+  font-weight: 600;
+}
+
+.tool.primary {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.tool.off {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.tool.danger {
+  border-color: rgba(192, 0, 0, 0.4);
+  color: #c00000;
+}
+
+.opts-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.opt {
+  height: 50px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 16px;
+  color: var(--ink);
+}
+
+.opt.on {
+  background: var(--lime);
+  border-color: var(--lime);
+  font-weight: 600;
+}
+
+/* ---------------- 火车票 ---------------- */
+
+.ticket-wrap {
+  background: #fff;
+  border-radius: 22px;
+  padding: 13px;
+}
+
+.ticket-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.entry {
+  min-width: 160px;
+  padding: 11px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+
+.entry.on {
+  border-color: var(--lime-deep);
+  background: rgba(150, 150, 140, 0.16);
+}
+
+.entry-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.entry-train {
+  font-size: 16px;
+  color: var(--ink-45);
+  font-family: var(--mono);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.field {
+  min-width: 0;
+}
+
+/* ---------------- 墨水屏工作台 ---------------- */
+
+.preview-frame {
+  background: var(--frame);
+  padding: 13px;
+  border-radius: 19px;
+  box-shadow: 0 13px 27px rgba(20, 22, 26, 0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-canvas {
+  width: 100%;
+  background: #fff;
+  border-radius: 6px;
+  display: block;
+}
+
+.preview-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(150, 150, 140, 0.7), transparent);
+  animation: d4u-sweep 2.4s linear infinite;
+}
+
+.preview-badge {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: rgba(16, 18, 21, 0.82);
+  color: var(--lime);
+  font-size: 15px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-family: var(--mono);
+}
+
+.epd-frame {
+  background: var(--frame);
+  border-radius: 19px;
+  padding: 11px;
+}
+
+.epd-canvas {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+  background: #eceee8;
+}
+
+.epd-badge {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  background: rgba(16, 18, 21, 0.82);
+  color: var(--lime);
+  font-size: 15px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.epd-badge i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  animation: d4u-breathe 1.4s ease-in-out infinite;
+}
+
+.profile-line {
+  padding: 13px 16px;
+  border-radius: 13px;
+  background: rgba(150, 150, 140, 0.22);
+  color: var(--olive);
+  font-size: 18px;
+}
+
+.gsteps {
+  display: flex;
+  align-items: flex-start;
+}
+
+.gstep {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.gstep-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--paper-deep);
+  color: var(--ink-45);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.gstep.active .gstep-dot {
+  background: var(--lime);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.gstep.done .gstep-dot {
+  background: var(--ink);
+  color: var(--lime);
+}
+
+.gstep-label {
+  font-size: 16px;
+  color: var(--ink-70);
+}
+
+.gstep-line {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--line);
+  z-index: 0;
+}
+
+.gstep-note {
+  font-size: 17px;
+  color: var(--ink-45);
+  text-align: center;
+  margin-top: 9px;
+  min-height: 24px;
+}
+
+.bcells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.bcell {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--paper-deep);
+}
+
+.bcell.on {
+  background: var(--lime-deep);
+}
+
+.xfer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 18px;
+}
+
+.xfer-stage {
+  color: var(--ink-70);
+}
+
+.xfer-num {
+  color: var(--olive);
+  font-weight: 600;
+}
+
+.xfer-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: var(--ink-45);
+  margin-top: 7px;
+}
+
+.progress-wrap {
+  margin-top: 9px;
+}
+
+.progress-foot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  color: var(--ink-45);
+  margin-top: 6px;
+}
+
+/* 工具入口面板 */
+.tool-entry {
+  height: 54px;
+  border-radius: 27px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 0 16px;
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.tool-entry:hover {
+  background: rgba(150, 150, 140, 0.28);
+}
+
+.tools-panel {
+  background: #fff;
+  border-radius: 22px;
+  padding: 7px 22px;
+  margin-top: 11px;
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+
+.tool-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  padding: 9px 0;
+}
+
+.tool-card-glyph {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.tool-card-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.tool-card-desc {
+  font-size: 17px;
+  color: var(--ink-45);
+}
